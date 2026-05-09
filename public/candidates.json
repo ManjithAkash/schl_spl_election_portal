@@ -1,0 +1,84 @@
+{
+  "candidates": [
+    {
+      "id": "manjit",
+      "name": "Manjit",
+      "tagline": "Unity & Strength",
+      "class": "XII",
+      "section": "A",
+      "gender": "male",
+      "portraitFile": "boy.png",
+      "symbolIndex": 0
+    },
+    {
+      "id": "harsha",
+      "name": "Harsha",
+      "tagline": "Rising Star",
+      "class": "XI",
+      "section": "B",
+      "gender": "female",
+      "portraitFile": "girl.png",
+      "symbolIndex": 1
+    },
+    {
+      "id": "vijay",
+      "name": "Vijay",
+      "tagline": "Victory Forward",
+      "class": "XII",
+      "section": "B",
+      "gender": "male",
+      "portraitFile": "boy.png",
+      "symbolIndex": 6
+    },
+    {
+      "id": "hari",
+      "name": "Hari",
+      "tagline": "Hope & Progress",
+      "class": "XI",
+      "section": "A",
+      "gender": "male",
+      "portraitFile": "boy.png",
+      "symbolIndex": 3
+    },
+    {
+      "id": "virat",
+      "name": "Virat",
+      "tagline": "Lead with Power",
+      "class": "XII",
+      "section": "C",
+      "gender": "male",
+      "portraitFile": "boy.png",
+      "symbolIndex": 7
+    },
+    {
+      "id": "riya",
+      "name": "Riya",
+      "tagline": "Care & Change",
+      "class": "XI",
+      "section": "C",
+      "gender": "female",
+      "portraitFile": "girl.png",
+      "symbolIndex": 4
+    },
+    {
+      "id": "tamil",
+      "name": "Tamil",
+      "tagline": "Culture & Pride",
+      "class": "XII",
+      "section": "D",
+      "gender": "female",
+      "portraitFile": "girl.png",
+      "symbolIndex": 5
+    },
+    {
+      "id": "suchir",
+      "name": "Suchir",
+      "tagline": "Focus & Service",
+      "class": "XI",
+      "section": "D",
+      "gender": "male",
+      "portraitFile": "boy.png",
+      "symbolIndex": 2
+    }
+  ]
+}

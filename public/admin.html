@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Staff Results Panel — KPS SPL Election</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy:    #10243f;
+    --blue:    #0f75bc;
+    --amber:   #f59e0b;
+    --surface: #f0f4fa;
+    --line:    #d7dee8;
+    --text:    #1f2937;
+    --muted:   #667085;
+    --green:   #167647;
+    --red:     #b42318;
+    --gold:    #c9960a;
+    --white:   #ffffff;
+    --shadow:  0 12px 40px rgba(16,36,63,0.13);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ───────────────────────────────── */
+  header {
+    background: linear-gradient(90deg, #10243f 0%, #123b63 100%);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    height: 80px;
+    box-shadow: 0 4px 20px rgba(16,36,63,0.28);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo-wrap {
+    width: 54px; height: 54px;
+    background: var(--white);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.4), 0 6px 14px rgba(0,0,0,0.18);
+    overflow: hidden;
+  }
+  .header-text { flex: 1; }
+  .header-text h1 {
+    font-family: 'Playfair Display', serif;
+    color: var(--white);
+    font-size: 1.3rem;
+    line-height: 1.1;
+  }
+  .header-text p {
+    color: rgba(255,255,255,.6);
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .staff-badge {
+    background: #dc2626;
+    color: var(--white);
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: .3rem .75rem;
+    border-radius: 8px;
+  }
+  #staffInfo {
+    color: rgba(255,255,255,.7);
+    font-size: .8rem;
+    display: none;
+    align-items: center;
+    gap: .6rem;
+  }
+  #staffInfo.show { display: flex; }
+  #staffInfo span { color: var(--amber); font-weight: 600; }
+  .btn-sm {
+    padding: .35rem .9rem;
+    border: 1.5px solid rgba(255,255,255,.35);
+    background: transparent;
+    color: rgba(255,255,255,.8);
+    border-radius: 7px;
+    font-size: .78rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-sm:hover { background: rgba(255,255,255,.1); }
+
+  /* ── PAGES ────────────────────────────────── */
+  .page { display: none; flex: 1; align-items: center; justify-content: center; padding: 2rem 1rem; }
+  .page.active { display: flex; }
+  #resultsPage.active { display: block; padding: 2rem 1.5rem; max-width: 900px; margin: 0 auto; }
+
+  /* ── LOGIN CARD ───────────────────────────── */
+  .login-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 2.6rem 2.8rem;
+    width: 100%; max-width: 420px;
+    border-top: 4px solid #dc2626;
+    animation: fadeUp .45s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .login-card h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--navy);
+    font-size: 1.55rem;
+    margin-bottom: .3rem;
+  }
+  .login-card p { color: var(--muted); font-size: .85rem; margin-bottom: 1.8rem; }
+  .field { margin-bottom: 1.1rem; }
+  label {
+    display: block;
+    font-size: .76rem; font-weight: 600;
+    letter-spacing: .07em; text-transform: uppercase;
+    color: var(--navy); margin-bottom: .4rem;
+  }
+  input {
+    width: 100%; padding: .72rem 1rem;
+    border: 1.5px solid var(--line); border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: .95rem;
+    color: var(--navy); background: #fbfdff;
+    outline: none; transition: border-color .2s;
+  }
+  input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(15,117,188,.1); }
+  .btn-login {
+    width: 100%; padding: .82rem;
+    background: var(--navy); color: var(--white);
+    font-family: 'DM Sans', sans-serif; font-size: .97rem; font-weight: 600;
+    border: none; border-radius: 8px; cursor: pointer; margin-top: .5rem;
+    transition: background .2s;
+  }
+  .btn-login:hover { background: #1a3a63; }
+  .err {
+    background: #fef2f2; border: 1.5px solid #fca5a5;
+    color: var(--red); padding: .6rem .9rem;
+    border-radius: 8px; font-size: .84rem;
+    margin-bottom: 1rem; display: none;
+  }
+  .err.show { display: block; animation: shake .3s ease; }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)}
+  }
+  .lock-icon { text-align: center; margin-bottom: 1.4rem; }
+  .lock-icon svg { width: 52px; height: 52px; }
+
+  /* ── RESULTS PAGE ─────────────────────────── */
+  .results-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.6rem; flex-wrap: wrap; gap: 1rem;
+  }
+  .results-header h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--navy); font-size: 1.8rem;
+  }
+  .results-header p { color: var(--muted); font-size: .82rem; margin-top: .2rem; }
+  .btn-refresh {
+    display: flex; align-items: center; gap: .4rem;
+    padding: .55rem 1.1rem; background: var(--navy); color: var(--white);
+    border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif;
+    font-size: .82rem; font-weight: 600; cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-refresh:hover { background: #1a3a63; }
+  .btn-refresh svg { width: 15px; height: 15px; }
+
+  /* Stats strip */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem; margin-bottom: 1.8rem;
+  }
+  .stat-box {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 10px; padding: 1.1rem 1.3rem;
+    box-shadow: 0 2px 8px rgba(16,36,63,.06);
+  }
+  .stat-box .label { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: .3rem; }
+  .stat-box .value { font-size: 1.9rem; font-weight: 700; color: var(--navy); line-height: 1; }
+  .stat-box .sub   { font-size: .75rem; color: var(--muted); margin-top: .25rem; }
+  .stat-box.highlight .value { color: var(--green); }
+
+  /* Winner banner */
+  #winnerBanner {
+    background: linear-gradient(135deg, #10243f 0%, #1a4a7a 100%);
+    border-radius: 14px; padding: 1.6rem 2rem;
+    display: flex; align-items: center; gap: 1.6rem;
+    margin-bottom: 1.8rem;
+    box-shadow: 0 8px 28px rgba(16,36,63,.22);
+    animation: fadeUp .5s ease both;
+  }
+  .winner-trophy svg { width: 52px; height: 52px; flex-shrink: 0; }
+  .winner-text .tag {
+    font-size: .68rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--amber); margin-bottom: .3rem;
+  }
+  .winner-text .name {
+    font-family: 'Playfair Display', serif;
+    color: var(--white); font-size: 2rem; line-height: 1;
+  }
+  .winner-text .details { color: rgba(255,255,255,.65); font-size: .85rem; margin-top: .35rem; }
+  .winner-votes {
+    margin-left: auto; text-align: right;
+    color: var(--amber); font-weight: 700;
+  }
+  .winner-votes .big { font-size: 2.4rem; line-height: 1; }
+  .winner-votes .lbl { font-size: .72rem; color: rgba(255,255,255,.55); text-transform: uppercase; letter-spacing: .07em; }
+
+  /* Tie banner */
+  #tieBanner {
+    background: #fffbeb; border: 2px solid var(--amber);
+    border-radius: 12px; padding: 1.2rem 1.6rem;
+    margin-bottom: 1.8rem; display: none;
+    align-items: center; gap: 1rem;
+  }
+  #tieBanner.show { display: flex; }
+  #tieBanner svg { width: 28px; height: 28px; flex-shrink: 0; }
+  #tieBanner p { color: #92400e; font-size: .9rem; font-weight: 500; }
+
+  /* Candidate results table */
+  .results-table {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(16,36,63,.07);
+  }
+  .table-head {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr 1fr 6rem 6rem;
+    gap: 1rem; padding: .75rem 1.4rem;
+    background: var(--navy); color: rgba(255,255,255,.7);
+    font-size: .72rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+  .result-row {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr 1fr 6rem 6rem;
+    gap: 1rem; padding: 1rem 1.4rem;
+    align-items: center;
+    border-bottom: 1px solid #f0f4fa;
+    transition: background .15s;
+  }
+  .result-row:last-child { border-bottom: none; }
+  .result-row:hover { background: #f8fafd; }
+  .result-row.winner-row {
+    background: linear-gradient(90deg, #fffbeb, #fef9ec);
+    border-left: 4px solid var(--amber);
+  }
+  .result-row.winner-row:hover { background: #fef3c7; }
+
+  .rank { font-size: .9rem; font-weight: 700; color: var(--muted); text-align: center; }
+  .rank.gold   { color: #b45309; font-size: 1.1rem; }
+  .rank.silver { color: #6b7280; font-size: 1rem; }
+  .rank.bronze { color: #92400e; }
+
+  .cname { font-weight: 600; color: var(--navy); font-size: .95rem; }
+  .csection { font-size: .75rem; color: var(--muted); margin-top: .15rem; }
+  .ctagline  { font-size: .8rem; color: var(--muted); }
+
+  .vote-count { font-size: 1.1rem; font-weight: 700; color: var(--navy); text-align: right; }
+  .vote-pct   { font-size: .75rem; color: var(--muted); margin-top: .1rem; text-align: right; }
+
+  .bar-wrap { background: #eef2f8; border-radius: 99px; height: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 99px; background: var(--blue); transition: width 1s ease; }
+  .bar-fill.top { background: var(--amber); }
+
+  /* Timestamp */
+  .generated-at { text-align: right; font-size: .72rem; color: var(--muted); margin-top: 1.2rem; }
+
+  /* Loading */
+  .loading {
+    text-align: center; padding: 3rem;
+    color: var(--muted); font-size: .9rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══════════════════════════════════════════════ -->
+<header>
+  <div class="logo-wrap">
+    <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+      <rect width="54" height="54" rx="13" fill="#f0f6ff"/>
+      <circle cx="27" cy="27" r="22" fill="#10243f" stroke="#0f75bc" stroke-width="1.5"/>
+      <rect x="12" y="24" width="14" height="12" rx="1" fill="none" stroke="#f59e0b" stroke-width="1.6"/>
+      <rect x="28" y="24" width="14" height="12" rx="1" fill="none" stroke="#f59e0b" stroke-width="1.6"/>
+      <line x1="27" y1="24" x2="27" y2="36" stroke="#f59e0b" stroke-width="1.6"/>
+      <ellipse cx="27" cy="18" rx="3" ry="4.5" fill="#f59e0b" opacity=".9"/>
+      <ellipse cx="27" cy="16" rx="1.8" ry="2.8" fill="#fef3c7"/>
+      <circle cx="17" cy="20" r="1" fill="#f59e0b"/>
+      <circle cx="37" cy="20" r="1" fill="#f59e0b"/>
+      <circle cx="27" cy="11" r="1" fill="#f59e0b"/>
+    </svg>
+  </div>
+  <div class="header-text">
+    <h1>Kutty Public School</h1>
+    <p>Staff Results Panel · SPL 2025</p>
+  </div>
+  <div id="staffInfo">
+    Logged in as <span id="staffUsername"></span>
+    <button class="btn-sm" onclick="handleLogout()">Sign Out</button>
+  </div>
+  <span class="staff-badge" id="restrictedBadge">Staff Only</span>
+</header>
+
+<!-- ═══ LOGIN PAGE ════════════════════════════════════════════ -->
+<div id="loginPage" class="page active">
+  <div class="login-card">
+    <div class="lock-icon">
+      <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="26" cy="26" r="25" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <rect x="14" y="24" width="24" height="18" rx="4" fill="#dc2626" opacity=".9"/>
+        <path d="M18 24v-6a8 8 0 0 1 16 0v6" stroke="#10243f" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="26" cy="33" r="3" fill="white"/>
+        <rect x="25" y="33" width="2" height="5" rx="1" fill="white"/>
+      </svg>
+    </div>
+    <h2>Staff Access</h2>
+    <p>This panel is restricted to authorised school staff only.</p>
+    <div class="err" id="loginErr">⚠ Invalid credentials. Please try again.</div>
+    <div class="field">
+      <label for="uname">Username</label>
+      <input type="text" id="uname" placeholder="e.g. principal" autocomplete="off"/>
+    </div>
+    <div class="field">
+      <label for="pwd">Password</label>
+      <input type="password" id="pwd" placeholder="Staff password"/>
+    </div>
+    <button class="btn-login" onclick="handleLogin()">Access Results →</button>
+  </div>
+</div>
+
+<!-- ═══ RESULTS PAGE ══════════════════════════════════════════ -->
+<div id="resultsPage" class="page">
+
+  <div class="results-header">
+    <div>
+      <h2>Election Results</h2>
+      <p id="resultsSubtitle">Student Parliament Leader — SPL 2025</p>
+    </div>
+    <button class="btn-refresh" onclick="loadResults()">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M13.65 2.35A8 8 0 1 0 15 8h-2a6 6 0 1 1-1.05-3.4L10 6h5V1l-1.35 1.35Z" fill="currentColor"/></svg>
+      Refresh
+    </button>
+  </div>
+
+  <!-- Stats strip -->
+  <div class="stats-strip">
+    <div class="stat-box">
+      <div class="label">Total Students</div>
+      <div class="value" id="statTotal">—</div>
+      <div class="sub">Registered voters</div>
+    </div>
+    <div class="stat-box highlight">
+      <div class="label">Votes Cast</div>
+      <div class="value" id="statCast">—</div>
+      <div class="sub" id="statRemaining">— yet to vote</div>
+    </div>
+    <div class="stat-box">
+      <div class="label">Voter Turnout</div>
+      <div class="value" id="statTurnout">—</div>
+      <div class="sub">of eligible voters</div>
+    </div>
+  </div>
+
+  <!-- Winner banner -->
+  <div id="winnerBanner" style="display:none">
+    <div class="winner-trophy">
+      <svg viewBox="0 0 52 52" fill="none">
+        <path d="M26 4 L31 16 L44 16 L34 24 L38 37 L26 30 L14 37 L18 24 L8 16 L21 16 Z" fill="#f59e0b"/>
+        <path d="M20 40 h12 v4 h-12 Z" fill="#c9960a"/>
+        <path d="M17 44 h18 v2 h-18 Z" fill="#b45309"/>
+      </svg>
+    </div>
+    <div class="winner-text">
+      <div class="tag">🏆 Election Winner</div>
+      <div class="name" id="winnerName">—</div>
+      <div class="details" id="winnerDetails">—</div>
+    </div>
+    <div class="winner-votes">
+      <div class="big" id="winnerVotes">—</div>
+      <div class="lbl">votes</div>
+    </div>
+  </div>
+
+  <!-- Tie banner -->
+  <div class="tie-banner" id="tieBanner">
+    <svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/><path d="M14 8v7" stroke="#d97706" stroke-width="2.5" stroke-linecap="round"/><circle cx="14" cy="19" r="1.5" fill="#d97706"/></svg>
+    <p id="tieMsg">It's a tie! No single winner yet. More votes may break the tie.</p>
+  </div>
+
+  <!-- Results table -->
+  <div class="results-table">
+    <div class="table-head">
+      <div>#</div>
+      <div>Candidate</div>
+      <div>Tagline</div>
+      <div style="text-align:right">Votes</div>
+      <div>Share</div>
+    </div>
+    <div id="resultsBody">
+      <div class="loading">Loading results…</div>
+    </div>
+  </div>
+
+  <div class="generated-at" id="generatedAt"></div>
+</div>
+
+<script>
+const API = '/api/admin';
+
+// ── Check if already logged in on load ────────────────────────
+window.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const res  = await fetch(`${API}/session`, { credentials: 'include' });
+    const data = await res.json();
+    if (data.loggedIn) {
+      showResults(data.username);
+    }
+  } catch (_) {}
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('loginPage').classList.contains('active')) handleLogin();
+});
+
+// ── LOGIN ──────────────────────────────────────────────────────
+async function handleLogin() {
+  const username = document.getElementById('uname').value.trim();
+  const password = document.getElementById('pwd').value;
+  const err      = document.getElementById('loginErr');
+  err.classList.remove('show');
+
+  if (!username || !password) {
+    err.textContent = '⚠ Please enter both username and password.';
+    err.classList.add('show'); return;
+  }
+
+  try {
+    const res  = await fetch(`${API}/login`, {
+      method: 'POST', credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+    const data = await res.json();
+    if (!data.success) {
+      err.textContent = '⚠ ' + data.message;
+      err.classList.add('show'); return;
+    }
+    showResults(data.username);
+  } catch (_) {
+    err.textContent = '⚠ Could not reach server. Please try again.';
+    err.classList.add('show');
+  }
+}
+
+// ── SHOW RESULTS PAGE ──────────────────────────────────────────
+function showResults(username) {
+  document.getElementById('loginPage').classList.remove('active');
+  document.getElementById('resultsPage').classList.add('active');
+  document.getElementById('staffUsername').textContent = username;
+  document.getElementById('staffInfo').classList.add('show');
+  document.getElementById('restrictedBadge').style.display = 'none';
+  loadResults();
+}
+
+// ── LOAD RESULTS ───────────────────────────────────────────────
+async function loadResults() {
+  document.getElementById('resultsBody').innerHTML = '<div class="loading">Fetching latest results…</div>';
+
+  try {
+    const res  = await fetch(`${API}/results`, { credentials: 'include' });
+    if (res.status === 401) { handleLogout(); return; }
+    const data = await res.json();
+    if (!data.success) return;
+    renderResults(data);
+  } catch (_) {
+    document.getElementById('resultsBody').innerHTML =
+      '<div class="loading">⚠ Could not load results. Check server connection.</div>';
+  }
+}
+
+// ── RENDER ─────────────────────────────────────────────────────
+function renderResults(data) {
+  const { stats, candidates, winner, is_tie, generated_at } = data;
+
+  // Stats
+  document.getElementById('statTotal').textContent    = stats.total_students;
+  document.getElementById('statCast').textContent     = stats.votes_cast;
+  document.getElementById('statRemaining').textContent= `${stats.votes_remaining} yet to vote`;
+  document.getElementById('statTurnout').textContent  = `${stats.turnout_pct}%`;
+
+  // Winner / tie banner
+  const wb = document.getElementById('winnerBanner');
+  const tb = document.getElementById('tieBanner');
+  if (is_tie) {
+    wb.style.display = 'none'; tb.classList.add('show');
+    const tied = candidates.filter(c => c.vote_count === candidates[0].vote_count).map(c => c.name).join(' & ');
+    document.getElementById('tieMsg').textContent =
+      `It's a tie between ${tied}! No single winner yet.`;
+  } else if (winner && winner.vote_count > 0) {
+    tb.classList.remove('show');
+    wb.style.display = 'flex';
+    document.getElementById('winnerName').textContent    = winner.name;
+    document.getElementById('winnerDetails').textContent = `${winner.class_section} · ${winner.tagline}`;
+    document.getElementById('winnerVotes').textContent   = winner.vote_count;
+  } else {
+    wb.style.display = 'none'; tb.classList.remove('show');
+  }
+
+  // Table rows
+  const maxVotes = candidates[0]?.vote_count || 1;
+  const rankSymbols = ['🥇', '🥈', '🥉'];
+
+  const rows = candidates.map((c, i) => {
+    const isWinner = winner && c.name === winner.name && !is_tie;
+    const barPct   = maxVotes > 0 ? Math.round((c.vote_count / maxVotes) * 100) : 0;
+    const rankDisp = i < 3
+      ? `<span class="rank ${['gold','silver','bronze'][i]}">${rankSymbols[i]}</span>`
+      : `<span class="rank">${i + 1}</span>`;
+
+    return `
+      <div class="result-row ${isWinner ? 'winner-row' : ''}">
+        <div>${rankDisp}</div>
+        <div>
+          <div class="cname">${c.name}</div>
+          <div class="csection">${c.class_section}</div>
+        </div>
+        <div class="ctagline">${c.tagline}</div>
+        <div>
+          <div class="vote-count">${c.vote_count}</div>
+          <div class="vote-pct">${c.percentage}%</div>
+        </div>
+        <div>
+          <div class="bar-wrap">
+            <div class="bar-fill ${isWinner ? 'top' : ''}" style="width:${barPct}%"></div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('resultsBody').innerHTML = rows;
+
+  // Timestamp
+  const ts = new Date(generated_at);
+  document.getElementById('generatedAt').textContent =
+    `Last updated: ${ts.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })} at ${ts.toLocaleTimeString('en-IN')}`;
+}
+
+// ── LOGOUT ─────────────────────────────────────────────────────
+async function handleLogout() {
+  await fetch(`${API}/logout`, { method: 'POST', credentials: 'include' });
+  document.getElementById('resultsPage').classList.remove('active');
+  document.getElementById('loginPage').classList.add('active');
+  document.getElementById('staffInfo').classList.remove('show');
+  document.getElementById('restrictedBadge').style.display = '';
+  document.getElementById('uname').value = '';
+  document.getElementById('pwd').value   = '';
+}
+</script>
+</body>
+</html>

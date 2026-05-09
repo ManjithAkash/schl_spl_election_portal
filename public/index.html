@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kutty Public School &mdash; SPL Elections</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy:    #10243f;
+    --blue:    #0f75bc;
+    --blue-dk: #084f8f;
+    --amber:   #f59e0b;
+    --amber-lt:#fef3c7;
+    --gold:    var(--amber);
+    --gold-lt: var(--amber-lt);
+    --surface: #f5f7fb;
+    --line:    #d7dee8;
+    --text:    #1f2937;
+    --muted:   #667085;
+    --red:     #b42318;
+    --green:   #167647;
+    --white:   #ffffff;
+    --shadow:  0 18px 45px rgba(16,36,63,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(15,117,188,0.08), transparent 32rem),
+      linear-gradient(180deg, #fbfcfe 0%, var(--surface) 100%);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ──────────────────────────────────── */
+  header {
+    background: linear-gradient(90deg, #10243f 0%, #123b63 100%);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    height: 80px;
+    box-shadow: 0 10px 30px rgba(16,36,63,0.22);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo-wrap {
+    width: 54px; height: 54px;
+    background: var(--white);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.55), 0 8px 18px rgba(0,0,0,0.18);
+    overflow: hidden;
+  }
+  .logo-wrap svg {
+    width: 48px;
+    height: 48px;
+    display: block;
+  }
+  .header-text { flex: 1; }
+  .header-text h1 {
+    font-family: 'Playfair Display', serif;
+    color: var(--white);
+    font-size: 1.45rem;
+    letter-spacing: .04em;
+    line-height: 1.1;
+  }
+  .header-text p {
+    color: rgba(255,255,255,0.68);
+    font-size: .75rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .header-badge {
+    background: var(--amber);
+    color: #172033;
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: .3rem .7rem;
+    border-radius: 8px;
+  }
+
+  /* ── PAGE SHELL ──────────────────────────────── */
+  main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
+
+  /* ── CARD ────────────────────────────────────── */
+  .card {
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 2.5rem 2.8rem;
+    width: 100%;
+    max-width: 440px;
+    border: 1px solid rgba(215,222,232,0.9);
+    border-top: 4px solid var(--blue);
+    animation: fadeUp .5s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(24px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--navy);
+    font-size: 1.65rem;
+    margin-bottom: .35rem;
+  }
+  .card-sub {
+    color: var(--muted);
+    font-size: .85rem;
+    margin-bottom: 1.8rem;
+  }
+  #loginPage {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  #loginPage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(16,36,63,.58) 0%, rgba(16,36,63,.38) 48%, rgba(16,36,63,.18) 100%),
+      linear-gradient(180deg, rgba(16,36,63,.22), rgba(16,36,63,.08));
+    z-index: 0;
+  }
+  #loginPage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 24% 52%, rgba(255,255,255,.18), transparent 17rem);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .login-bg-art {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .login-bg-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    opacity: .72;
+    filter: blur(4px) saturate(1.05) contrast(1.12);
+    transform: scale(1.02);
+  }
+  #loginPage .card {
+    position: relative;
+    z-index: 1;
+    background: rgba(255,255,255,.94);
+    backdrop-filter: blur(8px);
+  }
+
+  /* ── FORM ────────────────────────────────────── */
+  .field { margin-bottom: 1.2rem; }
+  label {
+    display: block;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: .4rem;
+  }
+  input[type=text], input[type=password] {
+    width: 100%;
+    padding: .75rem 1rem;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .95rem;
+    color: var(--navy);
+    background: #fbfdff;
+    transition: border-color .2s;
+    outline: none;
+  }
+  input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(15,117,188,0.12); }
+
+  .btn {
+    width: 100%;
+    padding: .85rem;
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    border: none; border-radius: 8px;
+    cursor: pointer;
+    margin-top: .5rem;
+    transition: background .2s, transform .1s;
+  }
+  .btn:hover  { background: #15365c; }
+  .btn:active { transform: scale(.98); }
+
+  .error-msg {
+    background: #fdecea;
+    border: 1.5px solid #e8a39d;
+    color: var(--red);
+    padding: .65rem 1rem;
+    border-radius: 8px;
+    font-size: .85rem;
+    margin-bottom: 1rem;
+    display: none;
+  }
+  .error-msg.show { display: block; animation: shake .3s ease; }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-6px)}
+    75%{transform:translateX(6px)}
+  }
+
+  /* ── VOTING PAGE ─────────────────────────────── */
+  .vote-wrap {
+    width: 100%; max-width: 960px;
+    margin: 0 auto;
+    animation: fadeUp .5s ease both;
+  }
+  .vote-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .vote-header h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--navy);
+    font-size: 2rem;
+    margin-bottom: .4rem;
+  }
+  .vote-header p { color: var(--muted); font-size: .9rem; }
+  .student-chip {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: var(--navy);
+    color: var(--white);
+    padding: .35rem 1rem;
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 600;
+    margin-top: .7rem;
+  }
+
+  .candidates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .candidate-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.5rem 1rem 1.2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, transform .18s, box-shadow .18s;
+    position: relative;
+    overflow: hidden;
+  }
+  .candidate-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(15,117,188,.08), transparent 60%);
+    opacity: 0; transition: opacity .2s;
+  }
+  .candidate-card:hover { border-color: var(--blue); transform: translateY(-4px); box-shadow: 0 14px 30px rgba(16,36,63,.14); }
+  .candidate-card:hover::before { opacity: 1; }
+  .candidate-card > * { position: relative; z-index: 1; }
+
+  .candidate-visual {
+    position: relative;
+    width: 132px;
+    height: 132px;
+    margin: 0 auto 1rem;
+  }
+  .candidate-photo {
+    width: 118px;
+    height: 118px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: #eef6fc;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 1px #d7e7f5, 0 12px 24px rgba(16,36,63,.12);
+    overflow: hidden;
+  }
+  .candidate-photo svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .symbol-wrap {
+    position: absolute;
+    right: 2px;
+    bottom: 4px;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #d7e7f5;
+    box-shadow: 0 8px 18px rgba(16,36,63,.2);
+  }
+  .symbol-wrap svg { width: 34px; height: 34px; }
+  .candidate-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--navy);
+    margin-bottom: .25rem;
+  }
+  .candidate-tagline { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; }
+
+
+  .confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(16,36,63,.58);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 450;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .24s ease;
+  }
+  .confirm-overlay.show { opacity: 1; pointer-events: all; }
+  .confirm-card {
+    position: relative;
+    width: min(720px, 96vw);
+    min-height: 320px;
+    display: grid;
+    grid-template-columns: minmax(220px, 42%) 1fr;
+    overflow: hidden;
+    background: var(--white);
+    border: 1px solid rgba(215,222,232,0.95);
+    border-radius: 8px;
+    box-shadow: 0 28px 80px rgba(16,36,63,.32);
+    transform: translateY(18px) scale(.97);
+    transition: transform .24s ease;
+  }
+  .confirm-overlay.show .confirm-card { transform: translateY(0) scale(1); }
+  .confirm-symbol-field {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: .12;
+  }
+  .confirm-symbol-stamp {
+    position: absolute;
+    width: 76px;
+    height: 76px;
+  }
+  .confirm-symbol-stamp svg { width: 100%; height: 100%; }
+  .confirm-symbol-stamp:nth-child(1) { left: 45%; top: 6%; transform: rotate(-18deg); }
+  .confirm-symbol-stamp:nth-child(2) { right: 8%; top: 10%; transform: rotate(22deg) scale(.8); }
+  .confirm-symbol-stamp:nth-child(3) { right: 19%; bottom: 8%; transform: rotate(-34deg) scale(1.08); }
+  .confirm-symbol-stamp:nth-child(4) { left: 50%; bottom: 12%; transform: rotate(15deg) scale(.72); }
+  .confirm-symbol-stamp:nth-child(5) { right: -12px; top: 45%; transform: rotate(48deg) scale(1.2); }
+  .confirm-symbol-stamp:nth-child(6) { left: 34%; top: 42%; transform: rotate(74deg) scale(.62); }
+  .confirm-symbol-stamp:nth-child(7) { right: 36%; top: -16px; transform: rotate(-55deg) scale(.76); }
+  .confirm-symbol-stamp:nth-child(8) { right: 4%; bottom: -18px; transform: rotate(31deg) scale(.88); }
+  .confirm-symbol-stamp:nth-child(9) { left: 39%; bottom: -22px; transform: rotate(-8deg) scale(.92); }
+  .confirm-symbol-stamp:nth-child(10) { right: 32%; top: 48%; transform: rotate(-80deg) scale(.58); }
+  .confirm-photo-panel {
+    position: relative;
+    z-index: 1;
+    min-height: 320px;
+    background: linear-gradient(160deg, #e8f3fb 0%, #f8fbfe 100%);
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    border-right: 1px solid var(--line);
+  }
+  .confirm-photo-panel svg {
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    object-fit: cover;
+    display: block;
+  }
+  .confirm-details {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2.4rem 2.2rem 5.4rem;
+  }
+  .confirm-kicker {
+    color: var(--blue);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: .45rem;
+  }
+  .confirm-name {
+    font-family: 'Playfair Display', serif;
+    color: var(--navy);
+    font-size: 2rem;
+    line-height: 1.05;
+    margin-bottom: .9rem;
+  }
+  .confirm-class {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    width: fit-content;
+    margin-bottom: .85rem;
+    color: var(--text);
+    font-size: .92rem;
+    font-weight: 700;
+    background: #f4f8fc;
+    border: 1px solid #d7e7f5;
+    border-radius: 8px;
+    padding: .5rem .7rem;
+  }
+  .confirm-class span {
+    color: var(--muted);
+    font-size: .72rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .confirm-tagline {
+    color: var(--muted);
+    font-size: .92rem;
+    line-height: 1.5;
+  }
+  .confirm-actions {
+    position: absolute;
+    z-index: 2;
+    left: 42%;
+    right: 0;
+    bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .vote-confirm-btn {
+    pointer-events: all;
+    min-width: 160px;
+    padding: .85rem 1.7rem;
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .95rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 12px 26px rgba(16,36,63,.2);
+  }
+  .vote-confirm-btn:hover { background: #15365c; }
+  .confirm-close {
+    position: absolute;
+    z-index: 3;
+    top: .8rem;
+    right: .8rem;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(255,255,255,.9);
+    color: var(--navy);
+    font-size: 1.35rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .confirm-close:hover { background: var(--white); border-color: var(--blue); }
+
+  @media (max-width: 680px) {
+    .confirm-card { grid-template-columns: 1fr; }
+    .confirm-photo-panel { min-height: 220px; border-right: 0; border-bottom: 1px solid var(--line); }
+    .confirm-photo-panel svg { min-height: 220px; }
+    .confirm-details { padding: 1.8rem 1.5rem 5.2rem; text-align: center; align-items: center; }
+    .confirm-actions { left: 0; }
+  }
+
+  /* ── POPUP ───────────────────────────────────── */
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(13,27,62,.65);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 500;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s;
+  }
+  .overlay.show { opacity: 1; pointer-events: all; }
+  .popup {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 2.5rem 2.8rem;
+    text-align: center;
+    max-width: 340px; width: 90%;
+    border: 1px solid rgba(215,222,232,0.9);
+    border-top: 4px solid var(--blue);
+    box-shadow: 0 24px 70px rgba(16,36,63,.28);
+    transform: scale(.85);
+    transition: transform .3s;
+  }
+  .overlay.show .popup { transform: scale(1); }
+  .popup-visual {
+    position: relative;
+    width: 134px;
+    height: 134px;
+    margin: 0 auto 1.2rem;
+  }
+  .popup-photo {
+    width: 122px;
+    height: 122px;
+    margin: 0 auto;
+    background: #f4f8fc;
+    border: 3px solid var(--white);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #d7e7f5, 0 12px 24px rgba(16,36,63,.14);
+    overflow: hidden;
+  }
+  .popup-photo svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .popup-symbol {
+    position: absolute;
+    right: 0;
+    bottom: 2px;
+    width: 54px; height: 54px;
+    background: var(--white);
+    border: 2px solid #d7e7f5;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 18px rgba(16,36,63,.2);
+  }
+  .popup-symbol svg { width: 35px; height: 35px; }
+  .popup-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--navy);
+    margin-bottom: .3rem;
+  }
+  .popup-sub { color: var(--muted); font-size: .82rem; margin-bottom: 1.4rem; }
+  .progress-bar {
+    height: 5px; background: #e3eaf3;
+    border-radius: 10px; overflow: hidden;
+    margin-top: 1rem;
+  }
+  .progress-fill {
+    height: 100%; background: var(--blue);
+    border-radius: 10px;
+    width: 0%; transition: width 3s linear;
+  }
+  .popup-timer { font-size: .75rem; color: var(--muted); margin-top: .5rem; }
+
+  /* ── ALREADY VOTED / THANK YOU ───────────────── */
+  .status-card {
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 3rem 2.8rem;
+    text-align: center;
+    max-width: 420px;
+    width: 100%;
+    border: 1px solid rgba(215,222,232,0.9);
+    border-top: 4px solid var(--blue);
+    animation: fadeUp .5s ease both;
+  }
+  .status-icon {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 1.4rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .status-icon.voted   { background: #eaf6ee; }
+  .status-icon.thanks  { background: #fef9ec; }
+  .status-card h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--navy);
+    font-size: 1.7rem;
+    margin-bottom: .6rem;
+  }
+  .status-card p { color: var(--muted); font-size: .9rem; line-height: 1.6; }
+  .btn-outline {
+    margin-top: 1.6rem;
+    display: inline-block;
+    padding: .7rem 1.8rem;
+    border: 2px solid var(--navy);
+    color: var(--navy);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: .9rem;
+    cursor: pointer;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    transition: background .2s, color .2s;
+  }
+  .btn-outline:hover { background: var(--navy); color: var(--white); }
+
+  /* ── FOOTER ──────────────────────────────────── */
+  footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: .72rem;
+    color: var(--muted);
+    letter-spacing: .06em;
+  }
+
+  /* ── PAGE VISIBILITY ─────────────────────────── */
+  .page { display: none; }
+  .page.active { display: flex; flex: 1; align-items: center; justify-content: center; padding: 2rem 1rem; }
+  #votePage.active { display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
+  .page:not(#loginPage) {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .page:not(#loginPage)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 520'%3E%3Cg fill='none' stroke='%2310243f' stroke-width='2.2' stroke-linecap='round' opacity='.13'%3E%3Cpath d='M92 88c10-9 20-9 30 0M122 88c10-9 20-9 30 0'/%3E%3Cpath d='M642 70c8-7 16-7 24 0M666 70c8-7 16-7 24 0'/%3E%3Cpath d='M760 154c7-6 14-6 21 0M781 154c7-6 14-6 21 0'/%3E%3Cpath d='M418 122c6-5 12-5 18 0M436 122c6-5 12-5 18 0'/%3E%3C/g%3E%3Cg fill='none' stroke='%23167647' stroke-width='2' stroke-linecap='round' opacity='.22'%3E%3Cpath d='M0 484c48-26 91-31 130-15 33 14 75 13 126-3 51-16 104-16 160 0 49 14 99 13 150-3 56-18 113-15 171 9 46 19 101 19 163 0v48H0v-36Z' fill='%23dff3e5' stroke='none' opacity='.72'/%3E%3Cpath d='M34 503c5-20 11-33 19-42M64 508c3-18 10-31 21-39M116 506c-1-17 4-31 15-43M780 506c4-18 11-32 22-42M830 508c1-18 8-33 20-44M704 507c-2-16 3-30 15-41'/%3E%3C/g%3E%3C/svg%3E") center bottom / cover no-repeat,
+      radial-gradient(circle at 12% 18%, rgba(15,117,188,.08), transparent 20rem),
+      radial-gradient(circle at 84% 78%, rgba(22,118,71,.10), transparent 22rem),
+      linear-gradient(180deg, #fbfdff 0%, #eef7f1 100%);
+  }
+  .page:not(#loginPage)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 34%;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent 0%, rgba(223,243,229,.46) 100%);
+  }
+  .page:not(#loginPage) > * {
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 780px) {
+    #loginPage::before {
+      background:
+        linear-gradient(180deg, rgba(16,36,63,.52), rgba(16,36,63,.22)),
+        linear-gradient(90deg, rgba(16,36,63,.45), rgba(16,36,63,.16));
+    }
+    #loginPage::after {
+      background: radial-gradient(circle at 50% 48%, rgba(255,255,255,.16), transparent 14rem);
+    }
+    .login-bg-art img {
+      object-position: center center;
+      transform: scale(1.08);
+      opacity: .62;
+      filter: blur(4px) saturate(1) contrast(1.08);
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══════════════════════════════════════════════ -->
+<header>
+  <div class="logo-wrap">
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="School logo">
+      <path d="M12 86c19-2 36 2 48 13 12-11 29-15 48-13" stroke="#0f75bc" stroke-width="7" stroke-linecap="round"/>
+      <path d="M14 96c18-1 33 3 46 12 13-9 28-13 46-12" stroke="#084f8f" stroke-width="5" stroke-linecap="round"/>
+      <path d="M21 66c18 0 31 7 39 20 8-13 21-20 39-20l-6-23c-16 1-27 7-33 19-6-12-17-18-33-19l-6 23Z" fill="#ffffff" stroke="#0f75bc" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M60 84v24" stroke="#0f75bc" stroke-width="7" stroke-linecap="round"/>
+      <path d="M60 108l-8 7h16l-8-7Z" fill="#0f75bc"/>
+      <circle cx="60" cy="22" r="7" fill="#0f75bc"/>
+      <path d="M51 67c-7-20-8-39 0-58 2 16 7 27 14 36 8-8 19-15 32-20-17 15-29 34-36 58-4-5-7-10-10-16Z" fill="#0f75bc"/>
+      <circle cx="31" cy="40" r="6" fill="#f59e0b"/>
+      <path d="M22 32c3 14 10 26 23 38-8-16-7-28 6-41-8 5-15 12-20 21-4-5-7-11-9-18Z" fill="#f59e0b"/>
+      <circle cx="89" cy="40" r="6" fill="#f59e0b"/>
+      <path d="M98 32c-3 14-10 26-23 38 8-16 7-28-6-41 8 5 15 12 20 21 4-5 7-11 9-18Z" fill="#f59e0b"/>
+    </svg>
+  </div>
+  <div class="header-text">
+    <h1>Kutty Public School</h1>
+    <p>School People Leader Elections</p>
+  </div>
+  <span class="header-badge">SPL 2026</span>
+</header>
+
+<!-- ═══ PAGES ════════════════════════════════════════════════ -->
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="page active">
+  <div class="login-bg-art" aria-hidden="true"><img src="spl-login-bg.png" alt=""/></div>
+  <div class="card">
+    <h2 class="card-title">Student Login</h2>
+    <p class="card-sub">Enter your credentials to access the voting portal.</p>
+
+    <div class="error-msg" id="errorMsg">⚠ Invalid credentials. Please check your name and admission number.</div>
+
+    <div class="field">
+      <label for="studentName">Full Name</label>
+      <input type="text" id="studentName" placeholder="e.g. Arjun Kumar" autocomplete="off"/>
+    </div>
+    <div class="field">
+      <label for="admNo">Admission Number (Password)</label>
+      <input type="password" id="admNo" placeholder="e.g. KPS2024001" autocomplete="off"/>
+    </div>
+    <button class="btn" onclick="handleLogin()">Login &amp; Proceed →</button>
+  </div>
+</div>
+
+<!-- ALREADY VOTED PAGE -->
+<div id="alreadyVotedPage" class="page">
+  <div class="status-card">
+    <div class="status-icon voted">
+      <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+        <circle cx="19" cy="19" r="18" fill="#1a6b3c" opacity=".12"/>
+        <path d="M10 20l6 6 12-13" stroke="#1a6b3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>Vote Already Cast</h2>
+    <p>You have already participated in this election.<br/>Each student may only vote once. Thank you for your participation!</p>
+    <button class="btn-outline" onclick="logout()">← Back to Login</button>
+  </div>
+</div>
+
+<!-- VOTING PAGE -->
+<div id="votePage" class="page">
+  <div class="vote-wrap">
+    <div class="vote-header">
+      <h2>Cast Your Vote</h2>
+      <p>Select a candidate to vote for the Student Parliament Leader</p>
+      <div class="student-chip">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <circle cx="7" cy="5" r="3" stroke="#f59e0b" stroke-width="1.5"/>
+          <path d="M1 13c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span id="loggedInName">—</span>
+      </div>
+    </div>
+    <div class="candidates-grid" id="candidatesGrid"></div>
+  </div>
+</div>
+
+<!-- THANK YOU PAGE -->
+<div id="thankYouPage" class="page">
+  <div class="status-card">
+    <div class="status-icon thanks">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <path d="M20 4 L24 14 L35 14 L26 21 L29 32 L20 26 L11 32 L14 21 L5 14 L16 14 Z" fill="#c9a84c" opacity=".9"/>
+      </svg>
+    </div>
+    <h2>Thank You!</h2>
+    <p id="thankMsg">Your vote has been recorded successfully.<br/>Every vote counts — you've helped shape the future of Kutty Public School!</p>
+
+  </div>
+</div>
+
+
+<!-- CANDIDATE CONFIRMATION CARD -->
+<div class="confirm-overlay" id="confirmOverlay" aria-hidden="true">
+  <div class="confirm-card" role="dialog" aria-modal="true" aria-labelledby="confirmName">
+    <div class="confirm-symbol-field" id="confirmSymbolField"></div>
+    <button class="confirm-close" type="button" onclick="closeConfirmCard()" aria-label="Close confirmation">&times;</button>
+    <div class="confirm-photo-panel" id="confirmPhotoPanel"></div>
+    <div class="confirm-details">
+      <div class="confirm-kicker">Confirm Candidate</div>
+      <h2 class="confirm-name" id="confirmName"></h2>
+      <div class="confirm-class"><span>Class &amp; Section</span><strong id="confirmClass"></strong></div>
+      <p class="confirm-tagline" id="confirmTagline"></p>
+    </div>
+    <div class="confirm-actions">
+      <button class="vote-confirm-btn" type="button" onclick="submitConfirmedVote()">Vote</button>
+    </div>
+  </div>
+</div>
+<!-- ═══ CANDIDATE POPUP ═══════════════════════════════════════ -->
+<div class="overlay" id="overlay">
+  <div class="popup">
+    <div class="popup-visual">
+      <div class="popup-photo" id="popupPhoto"></div>
+      <div class="popup-symbol" id="popupSymbol"></div>
+    </div>
+    <div class="popup-name" id="popupName"></div>
+    <div class="popup-sub">Your vote is being recorded…</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="popup-timer" id="popupTimer">Redirecting in 3s</div>
+  </div>
+</div>
+
+<footer>© 2026 Kutty Public School · SPL Election Portal</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   MOCK DATABASE  (replace with real API calls later)
+═══════════════════════════════════════════════════════════ */
+/*const DB = {
+  students: [
+    { name: "Arjun Kumar",   admNo: "KPS2024001", voted: false },
+    { name: "Priya Sharma",  admNo: "KPS2024002", voted: false },
+    { name: "Rajan Das",     admNo: "KPS2024003", voted: false },
+    { name: "Meena Pillai",  admNo: "KPS2024004", voted: false },
+    { name: "Karthik S",     admNo: "KPS2024005", voted: false },
+    { name: "Divya R",       admNo: "KPS2024006", voted: false },
+    { name: "Surya Prakash", admNo: "KPS2024007", voted: false },
+    { name: "Lakshmi N",     admNo: "KPS2024008", voted: false },
+  ]
+};*/
+
+/* ═══════════════════════════════════════════════════════════
+   CANDIDATE DATA  (loaded from JSON)
+═══════════════════════════════════════════════════════════ */
+let candidates = [];
+let candidatesData = null;
+
+// Load candidates data from JSON file
+async function loadCandidatesData() {
+  try {
+    const response = await fetch('candidates.json');
+    candidatesData = await response.json();
+    candidates = candidatesData.candidates;
+  } catch (error) {
+    console.error('Error loading candidates data:', error);
+    // Fallback to empty array if JSON fails to load
+    candidates = [];
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════ */
+let currentStudent = null;
+let pendingCandidate = null;
+let autoLogoutTimer = null;
+
+
+/* ═══════════════════════════════════════════════════════════
+   PAGES
+═══════════════════════════════════════════════════════════ */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LOGIN
+═══════════════════════════════════════════════════════════ */
+async function handleLogin() {
+  const name  = document.getElementById('studentName').value.trim();
+  const admNo = document.getElementById('admNo').value.trim();
+  const err   = document.getElementById('errorMsg');
+
+  err.classList.remove('show');
+
+  // Ensure candidates data is loaded
+  if (candidates.length === 0) {
+    await loadCandidatesData();
+  }
+
+  const student = DB.students.find(
+    s => s.name.toLowerCase() === name.toLowerCase() && s.admNo === admNo
+  );
+
+  if (!student) {
+    err.classList.add('show');
+    return;
+  }
+
+  currentStudent = student;
+  document.getElementById('loggedInName').textContent = student.name;
+
+  if (student.voted) {
+    showPage('alreadyVotedPage');
+  } else {
+    buildCandidateGrid();
+    showPage('votePage');
+  }
+}
+
+/* Allow Enter key on login */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('loginPage').classList.contains('active')) handleLogin();
+});
+
+// Initialize the application by loading candidates data
+window.addEventListener('DOMContentLoaded', async () => {
+  await loadCandidatesData();
+});
+
+const femaleCandidates = new Set(["Harsha", "Riya"]);
+
+function candidatePhoto(candidate) {
+  // Use boy.png or girl.png based on candidate gender
+  return `<img src="./images/portraits/${candidate.portraitFile}" alt="${candidate.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BUILD CANDIDATE GRID
+═══════════════════════════════════════════════════════════ */
+function buildCandidateGrid() {
+  const grid = document.getElementById('candidatesGrid');
+  grid.innerHTML = '';
+  candidates.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'candidate-card';
+    card.innerHTML = `
+      <div class="candidate-visual">
+        <div class="candidate-photo">${candidatePhoto(c)}</div>
+        <div class="symbol-wrap">${candidateSymbol(c)}</div>
+      </div>
+      <div class="candidate-name">${c.name}</div>
+      <div class="candidate-tagline">${c.tagline}</div>
+    `;
+    card.onclick = () => confirmCandidate(c);
+    grid.appendChild(card);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   VOTE POPUP
+═══════════════════════════════════════════════════════════ */
+function candidateClassSection(candidate) {
+  // Use class and section from candidate data
+  return `${candidate.class} ${candidate.section}`;
+}
+
+function candidateSymbol(candidate) {
+  // Use symbols.png with background positioning based on symbolIndex
+  // Assuming symbols.png is a sprite with 8 symbols arranged in 2 rows of 4
+  const row = Math.floor(candidate.symbolIndex / 4);
+  const col = candidate.symbolIndex % 4;
+  const bgPosX = col * 52; // Each symbol is 52px wide
+  const bgPosY = row * 52; // Each symbol is 52px tall
+  
+  return `<div style="width: 52px; height: 52px; background: url('./images/symbols/symbols.png') -${bgPosX}px -${bgPosY}px no-repeat; background-size: 208px 104px;"></div>`;
+}
+
+function buildSymbolField(candidate) {
+  // Create multiple symbol stamps using sprite
+  const symbolHtml = candidateSymbol(candidate);
+  return Array.from({ length: 10 }, () => `<span class="confirm-symbol-stamp">${symbolHtml}</span>`).join('');
+}
+
+function confirmCandidate(candidate) {
+  pendingCandidate = candidate;
+  document.getElementById('confirmPhotoPanel').innerHTML = candidatePhoto(candidate);
+  document.getElementById('confirmSymbolField').innerHTML = buildSymbolField(candidate);
+  document.getElementById('confirmName').textContent = candidate.name;
+  document.getElementById('confirmClass').textContent = candidateClassSection(candidate);
+  document.getElementById('confirmTagline').textContent = candidate.tagline;
+  const overlay = document.getElementById('confirmOverlay');
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden', 'false');
+}
+
+function closeConfirmCard() {
+  pendingCandidate = null;
+  const overlay = document.getElementById('confirmOverlay');
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+function submitConfirmedVote() {
+  if (!pendingCandidate) return;
+  const candidate = pendingCandidate;
+  closeConfirmCard();
+  openPopup(candidate);
+}
+
+function openPopup(candidate) {
+  document.getElementById('popupPhoto').innerHTML = candidatePhoto(candidate);
+  document.getElementById('popupSymbol').innerHTML = candidateSymbol(candidate);
+  document.getElementById('popupName').textContent = candidate.name;
+  document.getElementById('popupTimer').textContent = 'Redirecting in 3s';
+
+  const overlay = document.getElementById('overlay');
+  overlay.classList.add('show');
+
+  // Trigger progress bar
+  const fill = document.getElementById('progressFill');
+  fill.style.transition = 'none';
+  fill.style.width = '0%';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    fill.style.transition = 'width 3s linear';
+    fill.style.width = '100%';
+  }));
+
+  // Countdown
+  let t = 3;
+  const timer = setInterval(() => {
+    t--;
+    if (t > 0) {
+      document.getElementById('popupTimer').textContent = `Redirecting in ${t}s`;
+    } else {
+      clearInterval(timer);
+      castVote(candidate);
+    }
+  }, 1000);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CAST VOTE
+═══════════════════════════════════════════════════════════ */
+function castVote(candidate) {
+  // Mark voted in mock DB
+  const s = DB.students.find(s => s.admNo === currentStudent.admNo);
+  if (s) s.voted = true;
+
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById('thankMsg').innerHTML =
+    `Your vote for <strong>${candidate.name}</strong> has been recorded successfully.<br/>
+     Every vote counts — you've helped shape the future of Kutty Public School!`;
+
+  showPage('thankYouPage');
+  currentStudent = null;
+  clearTimeout(autoLogoutTimer);
+  autoLogoutTimer = setTimeout(logout, 5000);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LOGOUT
+═══════════════════════════════════════════════════════════ */
+function logout() {
+  clearTimeout(autoLogoutTimer);
+  autoLogoutTimer = null;
+  currentStudent = null;
+  document.getElementById('studentName').value = '';
+  document.getElementById('admNo').value = '';
+  document.getElementById('errorMsg').classList.remove('show');
+  showPage('loginPage');
+}
+</script>
+<script src="api.js"></script>
+</body>
+</html>

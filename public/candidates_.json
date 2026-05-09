@@ -1,0 +1,84 @@
+{
+  "candidates": [
+    {
+      "id": "arjun",
+      "name": "Arjun",
+      "tagline": "Lead with Courage",
+      "class": "XII",
+      "section": "A",
+      "gender": "male",
+      "portraitFile": "boy.png",
+      "symbolIndex": 0
+    },
+    {
+      "id": "priya",
+      "name": "Priya",
+      "tagline": "Voice of Every Student",
+      "class": "XI",
+      "section": "B",
+      "gender": "female",
+      "portraitFile": "girl.png",
+      "symbolIndex": 1
+    },
+    {
+      "id": "kiran",
+      "name": "Kiran",
+      "tagline": "Progress Through Action",
+      "class": "XII",
+      "section": "B",
+      "gender": "male",
+      "portraitFile": "boy.png",
+      "symbolIndex": 6
+    },
+    {
+      "id": "devan",
+      "name": "Devan",
+      "tagline": "Together We Rise",
+      "class": "XI",
+      "section": "A",
+      "gender": "male",
+      "portraitFile": "boy.png",
+      "symbolIndex": 3
+    },
+    {
+      "id": "rohan",
+      "name": "Rohan",
+      "tagline": "Discipline & Dedication",
+      "class": "XII",
+      "section": "C",
+      "gender": "male",
+      "portraitFile": "boy.png",
+      "symbolIndex": 7
+    },
+    {
+      "id": "meera",
+      "name": "Meera",
+      "tagline": "Empathy in Leadership",
+      "class": "XI",
+      "section": "C",
+      "gender": "female",
+      "portraitFile": "girl.png",
+      "symbolIndex": 4
+    },
+    {
+      "id": "kavya",
+      "name": "Kavya",
+      "tagline": "Roots, Pride & Future",
+      "class": "XII",
+      "section": "D",
+      "gender": "female",
+      "portraitFile": "girl.png",
+      "symbolIndex": 5
+    },
+    {
+      "id": "nived",
+      "name": "Nived",
+      "tagline": "Serve, Solve, Succeed",
+      "class": "XI",
+      "section": "D",
+      "gender": "male",
+      "portraitFile": "boy.png",
+      "symbolIndex": 2
+    }
+  ]
+}
